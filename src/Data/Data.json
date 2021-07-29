@@ -1,0 +1,143 @@
+[
+    {
+        "Standard": 1,
+        "subjects": [
+            {
+                "id": 1,
+                "subjectName": "Drawing",
+                "Chapters": [
+                    {
+                        "id": 1,
+                        "name": "Introduction to Drawing"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Basics Drawing"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Structures in  Drawing"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Standard": 2,
+        "subjects": [
+            {
+                "id": 1,
+                "subjectName": "Hindi",
+                "Chapters": [
+                    {
+                        "id": 1,
+                        "name": "Introduction to Hindi"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Varnmala"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Vayakaran"
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "subjectName": "English",
+                "Chapters": [
+                    {
+                        "id": 1,
+                        "name": "Life of Ant"
+                    },
+                    {
+                        "id": 2,
+                        "name": "One alive man"
+                    },
+                    {
+                        "id": 3,
+                        "name": "World of reptiles"
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "subjectName": "Science",
+                "Chapters": [
+                    {
+                        "id": 1,
+                        "name": "Force"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Pressure"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Physics"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Standard": 3,
+        "subjects": [
+            {
+                "id": 1,
+                "subjectName": "Hindi",
+                "Chapters": [
+                    {
+                        "id": 1,
+                        "name": "Ooot chala"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Bhaloo ne kheli football"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Dost ki madad"
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "subjectName": "English",
+                "Chapters": [
+                    {
+                        "id": 1,
+                        "name": "First day at School"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Smie"
+                    },
+                    {
+                        "id": 3,
+                        "name": "I am Lucky"
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "subjectName": "Science",
+                "Chapters": [
+                    {
+                        "id": 1,
+                        "name": "Sence organs"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Metals"
+                    },
+                    {
+                        "id": 3,
+                        "name": "Place of Worship"
+                    }
+                ]
+            }
+        ]
+    }
+]

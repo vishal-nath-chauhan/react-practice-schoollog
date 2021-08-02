@@ -1,98 +1,54 @@
-import React, { useState } from 'react'
-import { Box, Select, Stack, Button } from "@chakra-ui/react"
+import React, { useState, useEffect, useMemo } from 'react'
+import { Box, Select, Stack, Button, Spacer, Text } from "@chakra-ui/react"
 import Add from './Add';
+import { useSelector, useReducer } from 'react-redux';
 import ListChapters from './ListChapters';
 const Home = () => {
-    let data = require("../Data/Data.json")
-
     const [currentClass, setCurrentClass] = useState();
     const [currentSubject, setCurrentSubject] = useState();
-    const [currentChapters, setCurrentChapters] = useState()
-    const [courseData, setCourseData] = useState(data)
-    const [isEditing, setIsEditing] = useState({ id: null, status: false })
-    const [newChapterName, setnewChapterName] = useState('')
     const [isAddingNew, setisAddingNew] = useState(false)
+    const courseData = useSelector((state) => state.courseData)
+    const handleClass = (e) => {
+        setCurrentClass(e.target.value)
+        setCurrentSubject(undefined)
 
-    // this will store current subject chose by user
-    const handleChapter = () => {
-        setisAddingNew(false)
-        setIsEditing({ id: null, status: false })
-        setCurrentChapters(courseData.find(element => element['Standard'] == currentClass)['subjects'].find(subs => subs['subjectName'] == currentSubject)['Chapters'])
     }
-
-    const handleDelete = (idx) => {
-        setisAddingNew(false)
-        setIsEditing({ id: null, status: false })
-        setCurrentChapters(currentChapters.filter((element) => element['id'] !== idx))
-        courseData.find(element => element['Standard'] == currentClass)['subjects'].find(subs => subs['subjectName'] == currentSubject)['Chapters'] = currentChapters.filter((element) => element['id'] !== idx)
-        setCourseData(courseData)
+    const handleSubject = (e) => {
+        setCurrentSubject(e.target.value);
     }
-
-    const handleEdit = (idx) => {
-        setIsEditing(false)
-        currentChapters.find(chapter => chapter['id'] == idx)['name'] = newChapterName
-        courseData.find(element => element['Standard'] == currentClass)['subjects'].find(subs => subs['subjectName'] == currentSubject)['Chapters'] = currentChapters
-        setCourseData(courseData)
-    }
-
-    const handleAddChapter = () => {
-        courseData.find(element => element['Standard'] == currentClass)['subjects'].map(sub => {
-            if (sub['subjectName'] == currentSubject) {
-                sub['Chapters'] = [...currentChapters, { id: sub['Chapters'].length + 1, name: newChapterName }]
-                setCurrentChapters(sub['Chapters'])
-
-            }
-        })
-        setCourseData(courseData)
-        setisAddingNew(false)
-    }
-
 
     return (
         <div>
-            <Box bg="white" borderWidth="5px" h="50%" p={10} m="50" color="black" px={'center'} >
+            <Box bg="white" borderWidth="10px" shadow='sm' mb='10px' px='10px' py='5px' color="black" m="20px"  >
 
-                <Select placeholder="Select standard " onChange={(e) => {
-                    setCurrentClass(e.target.value)
-                }}>
-                    {
-                        courseData.map(elm =>
-                            <option value={elm['Standard']} key={elm['Standard']} >{elm['Standard']}</option>
-                        )
-                    }
-                </Select>
-                <Stack direction="column">
-                    <Box bg="white" h="50%" w="inherit" mt={5} p={2} color="black" px={'center'} >
+                <Text fontSize="3xl" textAlign="center" p="5px">Subject Management </Text>
 
-                        <Select placeholder="Select Subject" onChange={(e) => {
-                            setCurrentSubject(e.target.value)
-                        }} onClick={() => handleChapter()}>
-                            {currentClass ? courseData.find(element => element['Standard'] == currentClass)['subjects'].map((subject) =>
-                                <option value={subject['subjectName']} key={subject['subjectName']} >{subject['subjectName']}</option>
+                <Stack direction="row" p="20px" m="10px" >
+                    <Select w="30%" placeholder="Select standard " onChange={(e) => {
+                        handleClass(e)
+                    }}>
+                        {
+                            courseData.map(elm =>
+                                <option value={elm['Standard']} key={elm['Standard']} >{elm['Standard']}</option>
+                            )
+                        }
+                    </Select>
+                    <Select w="30%" placeholder="Select Subject" onChange={(e) => { handleSubject(e); }} >
+                        {currentClass ? courseData.find(element => element['Standard'] == currentClass)['subjects'].map((subject) =>
+                            <option value={subject['subjectName']} key={subject['subjectName']} >{subject['subjectName']}</option>
 
-                            ) : null
-
-
-                            }
-                        </Select>
-                    </Box>
-
+                        ) : null}
+                    </Select>
+                    <Spacer />
+                    <Button size="ms" w="10%" colorScheme="green" onClick={() => setisAddingNew(true)}>Add Chapter</Button>
+                    {isAddingNew && currentSubject !== undefined && currentClass !== undefined ? <Add setisAddingNew={setisAddingNew} />
+                        : null}
                 </Stack>
                 {currentSubject ?
-                    <>
-                        <Stack direction="column" spacing={5}>
-                            <h4 p={5}>Subject {currentSubject}</h4>
-                            <Button size="sm" onClick={() => setisAddingNew(true)}>Add Subject</Button>
-
-                            {isAddingNew && !isEditing['status'] ? <Add newChapterNam={setnewChapterName} handleAddChapt={handleAddChapter} />
-                                : null}
-
-
-                        </Stack>
-                    </> :
+                    <Text fontSize="2xl" px="20px" m="5px">Subject : {currentSubject} </Text> :
                     null
                 }
-                <ListChapters currentChapters={currentChapters} handleDelete={handleDelete} setIsEditing={setIsEditing} handleEdit={handleEdit} isEditing={isEditing} setnewChapterName={setnewChapterName} />
+                {currentSubject !== undefined && currentClass !== undefined ? <ListChapters currentSubject={currentSubject} currentClass={currentClass} /> : null}
 
             </Box>
         </div>

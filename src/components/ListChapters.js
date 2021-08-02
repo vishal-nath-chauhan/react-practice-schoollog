@@ -29,16 +29,23 @@ const ListChapters = ({ currentSubject, currentClass }) => {
 
 
     const handleEdit = (idx) => {
-        setIsEditing(false)
-        dispatch(edit_chapter(idx, newChapterName))
-        dispatch(fill_data(currentClass, currentSubject))
+        if (!newChapterName) {
+            alert("Enter valid chapter name")
+            setIsEditing(false)
 
-        toast({
-            title: "Chapter edited .",
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-        })
+        }
+        else {
+            setIsEditing(false)
+            dispatch(edit_chapter(idx, newChapterName))
+            dispatch(fill_data(currentClass, currentSubject))
+
+            toast({
+                title: "Chapter edited .",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+            })
+        }
     }
 
     const handleDelete = (idx) => {
@@ -60,7 +67,7 @@ const ListChapters = ({ currentSubject, currentClass }) => {
                     currentData ?
                         currentData.currentChapters.map((chapter) => (
                             <HStack key={chapter['id']} border='1px' borderRadius='5px' shadow='sm' mb='10px' px='10px' py='5px'>
-                                <Box as={Link} to={`/topic/${chapter['id']}` }>
+                                <Box as={Link} to={`/topic/${chapter['id']}`}>
                                     <h4> {chapter['name']}</h4>
                                 </Box>
                                 <Spacer as={Link} to={`/topic/${chapter['id']}`} />

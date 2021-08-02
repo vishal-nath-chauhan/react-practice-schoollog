@@ -1,7 +1,7 @@
 import { Input, Button, useToast, useDisclosure, ModalOverlay, Modal, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { add_chapter,fill_data } from "../actions/Actions"
+import { add_chapter, fill_data } from "../actions/Actions"
 
 const Add = ({ setisAddingNew }) => {
     const toast = useToast()
@@ -13,19 +13,27 @@ const Add = ({ setisAddingNew }) => {
     }, [])
 
     const [newChapterName, setnewChapterName] = useState('')
-    const courseData = useSelector((state) => state.courseData)
-    const currentData=useSelector((state)=>state.currentData)
+    const currentData = useSelector((state) => state.currentData)
 
     const handleAddChapter = () => {
-        dispatch(add_chapter(newChapterName))
-        dispatch(fill_data(currentData.currentClass,currentData.currentSubject))
-        setisAddingNew(false)
-        toast({
-            title: "Chapter Added Successfully .",
-            status: "success",
-            duration: 5000,
-            isClosable: true,
-        })
+        if (!newChapterName) {
+            alert('enter chapter name')
+            setisAddingNew(false)
+
+        }
+        else {
+            dispatch(add_chapter(newChapterName))
+            dispatch(fill_data(currentData.currentClass, currentData.currentSubject))
+            setisAddingNew(false)
+            toast({
+                title: "Chapter Added Successfully .",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+            })
+
+            setnewChapterName('')
+        }
     }
 
     return (
@@ -47,8 +55,6 @@ const Add = ({ setisAddingNew }) => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-
-
 
         </>
     )

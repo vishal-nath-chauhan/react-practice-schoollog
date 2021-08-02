@@ -19,7 +19,6 @@ const Add = ({ setisAddingNew }) => {
     const handleAddChapter = () => {
         dispatch(add_chapter(newChapterName))
         dispatch(fill_data(currentData.currentClass,currentData.currentSubject))
-        console.log('chapters after add ', courseData.find(element => element['Standard'] == currentData.currentClass)['subjects'].find(subs => subs['subjectName'] == currentData.currentSubject)['Chapters'])
         setisAddingNew(false)
         toast({
             title: "Chapter Added Successfully .",

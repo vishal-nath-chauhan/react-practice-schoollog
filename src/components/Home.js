@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState } from 'react'
 import { Box, Select, Stack, Button, Spacer, Text } from "@chakra-ui/react"
 import Add from './Add';
-import { useSelector, useReducer } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ListChapters from './ListChapters';
 const Home = () => {
     const [currentClass, setCurrentClass] = useState();
@@ -34,10 +34,11 @@ const Home = () => {
                         }
                     </Select>
                     <Select w="30%" placeholder="Select Subject" onChange={(e) => { handleSubject(e); }} >
-                        {currentClass ? courseData.find(element => element['Standard'] == currentClass)['subjects'].map((subject) =>
-                            <option value={subject['subjectName']} key={subject['subjectName']} >{subject['subjectName']}</option>
+                        {currentClass ?
+                            courseData.find(element => element['Standard'] == currentClass)['subjects'].map((subject) =>
+                                <option value={subject['subjectName']} key={subject['subjectName']} >{subject['subjectName']}</option>
 
-                        ) : null}
+                            ) : null}
                     </Select>
                     <Spacer />
                     <Button size="ms" w="10%" colorScheme="green" onClick={() => setisAddingNew(true)}>Add Chapter</Button>
@@ -54,6 +55,5 @@ const Home = () => {
         </div>
     )
 }
-
 
 export default Home

@@ -11,7 +11,7 @@ import {
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fill_data, delete_chapter,edit_chapter } from '../actions/Actions';
+import { fill_data, delete_chapter, edit_chapter } from '../actions/Actions';
 
 const ListChapters = ({ currentSubject, currentClass }) => {
 
@@ -30,7 +30,9 @@ const ListChapters = ({ currentSubject, currentClass }) => {
 
     const handleEdit = (idx) => {
         setIsEditing(false)
-        dispatch(edit_chapter(idx,newChapterName))
+        dispatch(edit_chapter(idx, newChapterName))
+        dispatch(fill_data(currentClass, currentSubject))
+
         toast({
             title: "Chapter edited .",
             status: "success",
@@ -58,7 +60,7 @@ const ListChapters = ({ currentSubject, currentClass }) => {
                     currentData ?
                         currentData.currentChapters.map((chapter) => (
                             <HStack key={chapter['id']} border='1px' borderRadius='5px' shadow='sm' mb='10px' px='10px' py='5px'>
-                                <Box as={Link} to={`/topic/${chapter['id']}`}>
+                                <Box as={Link} to={`/topic/${chapter['id']}` }>
                                     <h4> {chapter['name']}</h4>
                                 </Box>
                                 <Spacer as={Link} to={`/topic/${chapter['id']}`} />
@@ -74,8 +76,8 @@ const ListChapters = ({ currentSubject, currentClass }) => {
                                                 <ModalHeader>Edit Chapter</ModalHeader>
                                                 <ModalCloseButton />
                                                 <ModalBody>
+                                                    <Input defaultValue={chapter['name']} m={2} onChange={(e) => { if (e.target.value !== ' ') { setnewChapterName(e.target.value) } }} ></Input>
                                                 </ModalBody>
-                                                <Input defaultValue={chapter['name']} m={2} onChange={(e) => { if (e.target.value !== ' ') { setnewChapterName(e.target.value) } }} ></Input>
                                                 <ModalFooter>
                                                     <Button colorScheme="green" mr={3} onClick={() => { onClose(); handleEdit(chapter['id']) }}>
                                                         Update Name

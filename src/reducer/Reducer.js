@@ -5,39 +5,141 @@ const initialState = {
     currentData: null
 }
 
+function logError(name, reason) {
+    console.log(`Error : Found error in ${name} reducer case .
+    Problem occured in finding ${reason}`)
+
+}
+
 const reducerFunction = (state = initialState, action) => {
     switch (action.type) {
         case "ADD":
             let tempCourseData = state.courseData;
             let { currentClass, currentSubject, currentChapters } = state.currentData;
             currentChapters = [...currentChapters, { id: currentChapters.length + 1, name: action.payload.newChapterName }]
-            console.log("new current chapters ",currentChapters)
-            tempCourseData.find(element => element['Standard'] == currentClass)['subjects'].find(subs => subs['subjectName'] == currentSubject)['Chapters'] = currentChapters
-            console.log("chapters after calling add ",tempCourseData)
+            tempCourseData.map(element => {
+                if (element['Standard'] == currentClass) {
+                    if (element['subjects']) {
+                        element['subjects'].map(subs => {
+                            if (subs['subjectName'] == currentSubject) {
+                                if (subs["Chapters"]) {
+                                    subs['Chapters'] = currentChapters
+                                }
+                            }
+                            else {
+                                logError("ADD", "Subject name")
+
+                            }
+                        })
+                    }
+                    else {
+                        logError("ADD", "Subjects list")
+
+                    }
+                }
+                else {
+                    logError("ADD", "Standard list")
+
+                }
+            })
             return Object.assign({}, state, {
                 courseData: tempCourseData
             })
-        // courseData.find(element => element['Standard'] == currentClass)['subjects'].map(sub => {
-        //     if (sub['subjectName'] == currentSubject) {
-        //         let currentChapters = courseData.find(element => element['Standard'] == currentClass)['subjects'].find(subs => subs['subjectName'] == currentSubject)['Chapters']
-        //         sub['Chapters'] = [...currentChapters, { id: sub['Chapters'].length + 1, name: newChapterName }]
-        //     }
         case "DEL": {
             let tempCourseData = state.courseData;
             let { currentClass, currentSubject, currentChapters } = state.currentData;
-            tempCourseData.find(element => element['Standard'] == currentClass)['subjects'].find(subs => subs['subjectName'] == currentSubject)['Chapters'] = currentChapters.filter((element) => element['id'] !== action.payload.id)
+            tempCourseData.map(element => {
+                if (element['Standard'] == currentClass) {
+                    if (element['subjects']) {
+                        element['subjects'].map(subs => {
+                            if (subs['subjectName'] == currentSubject) {
+                                if (subs["Chapters"]) {
+                                    subs['Chapters'] = currentChapters.filter((element) => element['id'] !== action.payload.id)
+                                }
+                            }
+                            else {
+                                logError("DEL", "Subject name")
+
+                            }
+                        })
+                    }
+                    else {
+                        logError("DEL", "Subjects list")
+
+                    }
+                }
+                else {
+                    logError("DEL", "Standard list")
+                }
+            })
             return Object.assign({}, state, {
                 courseData: tempCourseData
             })
         }
-        case "EDIT":
-                    // currentData.currentChapters.find(chapter => chapter['id'] == idx)['name'] = newChapterName
-        // // courseData.find(element => element['Standard'] == currentClass)['subjects'].find(subs => subs['subjectName'] == currentSubject)['Chapters'] = currentChapters
-            return null
+        case "EDIT": {
+            let tempCourseData = state.courseData;
+            let { currentClass, currentSubject, currentChapters } = state.currentData;
+            let { id, newChapterName } = action.payload;
+            currentChapters.map(chapter => {
+                if (chapter['id'] == id) {
+                    chapter['name'] = newChapterName
+                }
+            })
+            tempCourseData.map(element => {
+                if (element['Standard'] == currentClass) {
+                    if (element['subjects']) {
+                        element['subjects'].map(subs => {
+                            if (subs['subjectName'] == currentSubject) {
+                                if (subs["Chapters"]) {
+                                    subs['Chapters'] = currentChapters
+                                }
+                            }
+                            else {
+                                logError("EDIT", "Subject name")
+
+                            }
+                        })
+                    }
+                    else {
+                        logError("EDIT", "Subjects list")
+                    }
+                }
+                else {
+                    logError("EDIT", "Standard list")
+
+                }
+            })
+            return Object.assign({}, state, {
+                courseData: tempCourseData
+            })
+        }
 
         case "FILL": {
             let { currentClass, currentSubject } = action.payload;
-            let currentChapters = state.courseData.find(element => element['Standard'] == currentClass)['subjects'].find(subs => subs['subjectName'] == currentSubject)['Chapters']
+            let currentChapters;
+            state.courseData.map(element => {
+                if (element['Standard'] == currentClass) {
+                    if (element['subjects']) {
+                        element['subjects'].map(subs => {
+                            if (subs['subjectName'] == currentSubject) {
+
+                                currentChapters = subs['Chapters']
+                            }
+                            else {
+                                logError("FILL", "Subject name")
+
+                            }
+                        })
+                    }
+                    else {
+                        logError("FILL", "Subjects list")
+                    }
+                }
+                else {
+                    logError("FILL", "Standard list")
+
+                }
+            })
             return Object.assign({}, state, {
                 currentData: { currentChapters, currentSubject, currentClass }
             })
